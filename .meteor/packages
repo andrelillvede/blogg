@@ -10,3 +10,6 @@ fs
 
 npm-container
 markdown
+iron:router
+imageserve
+peerlibrary:async
