@@ -1,4 +1,4 @@
-if (Meteor.isClient) {
+ if (Meteor.isClient) {
     Posts = new Meteor.Collection('posts');
     Meteor.subscribe('posts');
 
@@ -15,10 +15,6 @@ if (Meteor.isServer) {
     Blog = {};
 
     Blog.path = process.env['BLOG_PATH'];
-    Fs.watch(Blog.path, function(e, fname){
-        console.log(e);
-        console.log(fname)
-    })
 
     if(!Fs.stat(Blog.path).isDirectory())
         throw new Error('env BLOG_PATH must point to an existing dir');
@@ -28,35 +24,58 @@ if (Meteor.isServer) {
     console.info('Path to posts', Blog.postsPath);
 
     Blog.posts = new Meteor.Collection(null);
+    var processing = false;
     getPosts();
 
-    
-
     function getPosts(){
-    	var posts = Fs.readdir(Blog.postsPath);
+        if(!processing){
+            processing = true;
+            //Blog.posts.remove({})
+            var posts = Fs.readdir(Blog.postsPath);
 
-    	posts.forEach(function(post){
-    		var path = Blog.postsPath + '/' + post;
-    		if(Fs.stat(path).isDirectory()){
-    			var mongoPost = {};
+            posts.forEach(function(post){
+                var path = Blog.postsPath + '/' + post;
+                if(Fs.stat(path).isDirectory()){
+                    var o = {} 
+                    o.id = post;
+                    o.text = Fs.readFile(path + '/text.md', 'utf8');
+                    o.images = Fs.readdir(path + '/images');
+                    
+                    settings = JSON.parse(Fs.readFile(path + '/settings.json', 'utf8'));
+                    for (var key in settings) {
+                        o[key] = settings[key];
+                    };
 
-                mongoPost.settings = JSON.parse(Fs.readFile(path + '/settings.json', 'utf8'));
-                mongoPost.text = Fs.readFile(path + '/text.md', 'utf8');
-                mongoPost.images = Fs.readdir(path + '/images');
+                    Blog.posts.upsert({id: o.id}, {$set: o});
 
-                console.log(mongoPost);
-                Blog.posts.insert(mongoPost);
-
-
-    			//läs settings.json
-    			//läs text.md
-    			//läs bildmapp
-
-    		}
-    	})
-
-    	return posts
+                }
+            })
+        }
+        processing = false
     }
+
+    Fs.watch(Blog.postsPath, function(e, fname){
+
+      switch (true) {
+        case (fname.indexOf('text.md') != -1):
+        case (fname.indexOf('settings.json') != -1):
+        case (fname.indexOf('images') != -1):
+            console.log('update to allowed files noticed', e, fname)
+            getPosts() 
+            break;
+        case (fname.indexOf('.DS_Store') !=-1):
+            console.log('update to disallowed files noticed', e, fname)
+            break;
+        case (fname.indexOf('/') < 0):
+            console.log('update to post folder noticed', e, fname)
+            Blog.posts.remove({})
+            getPosts();
+            break;
+        default:
+          break;
+       }
+
+    })
 
   });
 
@@ -64,7 +83,13 @@ if (Meteor.isServer) {
     var self = this;
     var handle = Blog.posts.find({}).observeChanges({
       added: function (id, fields) {
-          self.added("posts", id, fields);
+        self.added('posts', id, fields);
+      },
+      changed: function(id, fields){
+        self.changed('posts', id, fields)
+      },
+      removed: function (id){
+        self.removed('posts', id);
       }
     });
     self.ready();
