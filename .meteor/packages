@@ -13,3 +13,5 @@ markdown
 iron:router
 imageserve
 peerlibrary:async
+less
+lightbox

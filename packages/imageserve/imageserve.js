@@ -1,5 +1,5 @@
-var Future = Meteor.npmRequire('fibers/future');
-var spawn = Meteor.npmRequire('child_process').spawn;
+var Future = Npm.require('fibers/future');
+var spawn = Npm.require('child_process').spawn;
 
 ImageServe = function(blogPath, cacheFolder){
 	var q = async.queue(imageWorker, 2)

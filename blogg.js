@@ -2,6 +2,12 @@ if (Meteor.isClient) {
 	Posts = new Meteor.Collection('posts');
 	Meteor.subscribe('posts');
 
+	Template.post.rendered = function(){
+		console.log(this.find('a'))
+		var a = $( '.images a' ).imageLightbox();
+		console.log(a)
+	}
+
 	Template.posts.helpers({
 		posts: function(){
 			return Posts.find();
@@ -40,7 +46,11 @@ if (Meteor.isServer) {
 						var o = {} 
 						o.id = post;
 						o.text = Fs.readFile(path + '/text.md', 'utf8');
-						o.images = Fs.readdir(path + '/images');
+						o.images = Fs.readdir(path + '/images').filter(function(el){
+							return el.indexOf('.jpg') > -1 || el.indexOf('.png')  > -1 || el.indexOf('.tiff') > -1
+						});
+
+						console.log('o.images', o.images)
 
 						settings = JSON.parse(Fs.readFile(path + '/settings.json', 'utf8'));
 						for (var key in settings) {

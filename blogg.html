@@ -1,9 +1,14 @@
 <head>
   <title>blogg</title>
+  <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
-  
+	<header>
+		<h1>LILLVEDE</h1>
+		<p>Vardag</p>
+	</header>
+  	
 </body>
 
 <template name="posts">
@@ -15,10 +20,19 @@
 </template>
 
 <template name="post">
-	<h1>{{title}}</h1>
-	{{#markdown}}{{text}}{{/markdown}}
+	<div class="post">
+		<h2>{{title}}</h2>
 
-	{{#each images}}
-		<img src="/{{../id}}/{{.}}">
-	{{/each}}
+		<div class="images four">
+			{{#each images}}
+				<a href="http://localhost:3000/{{../id}}/{{.}}/{{../image_size}}" data-imagelightbox="all">
+					<div style="background: url(http://localhost:3000/{{../id}}/{{.}}/{{../image_size}})" class="image"></div>
+				</a>
+			{{/each}}
+		</div>
+		<div class="text">
+			{{#markdown}}{{text}}{{/markdown}}
+		</div>
+	</div>
+	<img src="picture.jpg" id="imagelightbox" />
 </template>

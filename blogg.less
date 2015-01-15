@@ -1,0 +1,79 @@
+/* CSS declarations go here */
+html {
+	box-sizing: border-box;
+}
+
+*, *:before, *:after {
+  box-sizing: inherit;
+}
+
+body {
+	font-family: 'Montserrat', sans-serif;
+}
+
+header {
+	text-align: center;
+	margin-bottom: 50px;
+	h1 {
+		margin: 40px 0 10px 0;
+		font-size: 100px;
+	}
+	p {
+		opacity: 0.2;
+	}
+}
+
+#imagelightbox
+{
+    position: fixed;
+    z-index: 9999;
+ 
+    -ms-touch-action: none;
+    touch-action: none;
+}
+
+.post {
+	text-align: center;
+	padding: 0 30px;
+	.text {
+		text-align: left;
+	}
+	.images {
+		margin: 0 auto;
+		font-size: 0;
+		font-family: monospace;
+
+		.image {
+			display: inline-block;
+			margin-right: 1%;
+			margin-left: 1%;
+		}
+		&.one {
+			div {
+				width: 100%;
+				padding-bottom: 100%;
+			}
+		} 
+		&.two {
+			div {
+				width: 48%;
+				padding-bottom: 48%;
+
+			}
+		}		
+		&.three {
+			div {
+				width: 31.3333333%;
+				padding-bottom: 31.3333333%;
+			}
+		}
+		&.four {
+			div {
+				width: 23%;
+				padding-bottom: 23%;
+			}
+		}
+		 
+
+	}
+}

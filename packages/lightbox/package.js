@@ -1,14 +1,13 @@
 Package.describe({
-  name: 'imageserve',
+  name: 'lightbox',
   summary: ' /* Fill me in! */ ',
   version: '1.0.0',
   git: ' /* Fill me in! */ '
 });
 
 Package.onUse(function(api) {
-  api.versionsFrom('1.0.2.1');
-  api.addFiles('imageserve.js', 'server');
-  api.export('ImageServe', 'server');
+  api.use('jquery', 'client');
+  api.addFiles('imagelightbox.min.js', 'client');
 });
 
 Package.onTest(function(api) {
