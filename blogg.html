@@ -1,0 +1,20 @@
+<head>
+  <title>blogg</title>
+</head>
+
+<body>
+  {{> posts}}
+</body>
+
+<template name="posts">
+	<div>
+		{{#each posts}}
+			{{> post}}
+		{{/each}}		
+	</div>
+</template>
+
+<template name="post">
+	
+	{{#markdown}}{{text}}{{/markdown}}
+</template>

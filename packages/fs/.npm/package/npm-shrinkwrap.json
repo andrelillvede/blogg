@@ -1,0 +1,21 @@
+{
+  "dependencies": {
+    "fs-extra": {
+      "version": "0.8.1",
+      "dependencies": {
+        "ncp": {
+          "version": "0.4.2"
+        },
+        "mkdirp": {
+          "version": "0.3.5"
+        },
+        "jsonfile": {
+          "version": "1.1.1"
+        },
+        "rimraf": {
+          "version": "2.2.6"
+        }
+      }
+    }
+  }
+}
