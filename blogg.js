@@ -15,6 +15,7 @@ if (Meteor.isServer) {
 		Blog = {};
 
  		Blog.path = process.env['BLOG_PATH'];
+ 		Blog.cacheFolder = Blog.path + 'cache';
 
  		if(!Fs.stat(Blog.path).isDirectory())
  			throw new Error('env BLOG_PATH must point to an existing dir');
@@ -77,7 +78,7 @@ if (Meteor.isServer) {
 
 		})
 
-		is = new ImageServe();
+		is = new ImageServe(Blog.path, Blog.cacheFolder);
 
 	});
 

@@ -2,10 +2,10 @@ Router.route('/', function () {
   this.render('posts');
 });
 
-Router.route('/:filename', {where: 'server'})
+Router.route('/:post/:filename', {where: 'server'})
   .get(function () {
     
-    var file = Fs.readFile(is.getImage('2', this.params.filename, '500'));
+    var file = Fs.readFile(is.getImage(this.params.post, this.params.filename, '500'));
 
     var headers = {
       'Content-type': 'image/png',

@@ -1,14 +1,13 @@
 var Future = Meteor.npmRequire('fibers/future');
 var spawn = Meteor.npmRequire('child_process').spawn;
 
-ImageServe = function(){
+ImageServe = function(blogPath, cacheFolder){
 	var q = async.queue(imageWorker, 2)
 	var Future = Meteor.npmRequire('fibers/future');
     var spawn = Meteor.npmRequire('child_process').spawn;
     
 	function imageWorker(task, callback){
-		var originalPath = '/tmp/' + task.name;
-		var im = spawn('convert', [originalPath, '-resize', task.size + 'x' + task.size + '>', "-unsharp", "2x0.5+0.7+0", "-quality", "98", task.cachePath]);
+		var im = spawn('convert', [task.originalPath, '-resize', task.size + 'x' + task.size + '>', "-unsharp", "2x0.5+0.7+0", "-quality", "98", task.cachePath]);
 
 		im.on('close', function(code) {
 			if(code == 0) {
@@ -28,8 +27,8 @@ ImageServe = function(){
 
 	this.getImage = function(post, name, size){
 		var hash = hasher(post + '-' + name + '-' + size);
-		var cacheFolder = '/tmp/cache/'
-		var cachePath = cacheFolder + hash;
+		var cachePath = cacheFolder + '/' + hash;
+		var originalPath = blogPath + 'posts/' + post + '/images/' + name;
 
 		if(Fs.exists(cachePath))
 			return cachePath
@@ -39,6 +38,7 @@ ImageServe = function(){
 			post: post,
 			name: name,
 			size: size,
+			originalPath: originalPath, 
 			cachePath: cachePath
 		}, function(err){
 			if(err){
