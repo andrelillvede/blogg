@@ -25,7 +25,7 @@
 
 		<div class="images four">
 			{{#each images}}
-				<a href="http://localhost:3000/{{../id}}/{{.}}/{{../image_size}}" data-imagelightbox="all">
+				<a href="http://localhost:3000/{{../id}}/{{.}}/{{../image_size}}" class="fresco">
 					<div style="background: url(http://localhost:3000/{{../id}}/{{.}}/{{../image_size}})" class="image"></div>
 				</a>
 			{{/each}}
@@ -34,5 +34,5 @@
 			{{#markdown}}{{text}}{{/markdown}}
 		</div>
 	</div>
-	<img src="picture.jpg" id="imagelightbox" />
+	
 </template>

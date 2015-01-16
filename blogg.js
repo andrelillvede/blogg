@@ -2,12 +2,6 @@ if (Meteor.isClient) {
 	Posts = new Meteor.Collection('posts');
 	Meteor.subscribe('posts');
 
-	Template.post.rendered = function(){
-		console.log(this.find('a'))
-		var a = $( '.images a' ).imageLightbox();
-		console.log(a)
-	}
-
 	Template.posts.helpers({
 		posts: function(){
 			return Posts.find();

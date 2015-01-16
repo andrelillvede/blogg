@@ -7,7 +7,20 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.use('jquery', 'client');
-  api.addFiles('imagelightbox.min.js', 'client');
+
+  api.addFiles('fresco_unmin.js', 'client');
+  api.addFiles('fresco.css', 'client');
+
+  api.addFiles('skins/loading.gif', 'client');
+  api.addFiles('skins/loading-small.gif', 'client');
+  api.addFiles('skins/loading-medium.gif', 'client');
+  api.addFiles('skins/blank.gif', 'client');
+  
+  api.addFiles('skins/fresco/sprite.png', 'client');
+  api.addFiles('skins/fresco/sprite@x2.png', 'client');
+ 
+  api.addFiles('skins/IE6/sprite.png', 'client');
+
 });
 
 Package.onTest(function(api) {
