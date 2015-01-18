@@ -1,19 +1,22 @@
 <head>
-  <title>blogg</title>
   <link href='http://fonts.googleapis.com/css?family=Montserrat:400,700' rel='stylesheet' type='text/css'>
 </head>
 
 <body>
-	<header>
-		<h1>LILLVEDE</h1>
-		<p>Vardag</p>
-	</header>
-  	
+  	{{> header }}
 </body>
+
+<template name="header">
+	<header>
+
+		<h1><a href="/">{{settings.title}}</a></h1>
+		<p>{{settings.subtitle}}</p>
+	</header>
+</template>
 
 <template name="posts">
 	<div>
-		{{#each posts}}
+		{{#each .}}
 			{{> post}}
 		{{/each}}		
 	</div>
@@ -21,12 +24,13 @@
 
 <template name="post">
 	<div class="post">
-		<h2>{{title}}</h2>
+		<h2><a href="/post/{{id}}">{{title}}</a></h2>
+		<p>{{prettyDate date}}</p>
 
-		<div class="images four">
+		<div class="images {{columns}}">
 			{{#each images}}
-				<a href="http://localhost:3000/{{../id}}/{{.}}/{{../image_size}}" class="fresco" data-fresco-group="all">
-					<div style="background: url(http://localhost:3000/{{../id}}/{{.}}/{{../image_size}})" class="image"></div>
+				<a href="/image/{{../id}}/{{.}}/1200" class="fresco" data-fresco-group="{{../gallery}}">
+					<div style="background-image: url(/image/{{../id}}/{{.}}/{{../image_size}})" class="image"></div>
 				</a>
 			{{/each}}
 		</div>

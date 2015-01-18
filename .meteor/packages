@@ -15,3 +15,5 @@ imageserve
 peerlibrary:async
 less
 lightbox
+mrt:fittext
+momentjs:moment

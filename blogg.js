@@ -2,20 +2,53 @@ if (Meteor.isClient) {
 	Posts = new Meteor.Collection('posts');
 	Meteor.subscribe('posts');
 
+	
+	Meteor.call('getBlogSettings', function(err ,res){
+		Session.set('blogSettings', res)
+	})
+
+	Template.header.rendered = function(){
+		Tracker.autorun(function(){
+			var settings = Session.get('blogSettings')
+			console.log(settings)
+			if(settings)
+				document.title = settings.title;
+		})
+	}
+
+	Template.header.helpers({
+		settings: function(){
+			return Session.get('blogSettings')
+		}
+	})
+
+
+	Template.posts.rendered = function(){
+		console.log(this)
+		$('header h1').fitText(1);
+	}
+
 	Template.posts.helpers({
 		posts: function(){
 			return Posts.find();
+		}
+	})
+
+	Template.post.helpers({
+		prettyDate: function(date){
+			return moment(date, "YYMMDD").format('LL')
 		}
 	})
 }
 
 if (Meteor.isServer) {
  	Meteor.startup(function () {
-
 		Blog = {};
 
  		Blog.path = process.env['BLOG_PATH'];
  		Blog.cacheFolder = Blog.path + 'cache';
+
+ 		Blog.settings = JSON.parse(Fs.readFile(Blog.path + '/settings.json', 'utf8'));
 
  		if(!Fs.stat(Blog.path).isDirectory())
  			throw new Error('env BLOG_PATH must point to an existing dir');
@@ -80,6 +113,12 @@ if (Meteor.isServer) {
 				break;
 			}
 
+		})
+
+		Meteor.methods({
+			'getBlogSettings': function(){
+				return Blog.settings;
+			}
 		})
 
 		is = new ImageServe(Blog.path, Blog.cacheFolder);
