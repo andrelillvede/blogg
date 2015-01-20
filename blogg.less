@@ -9,22 +9,35 @@ html {
 
 body {
 	font-family: 'Montserrat', sans-serif;
+	-webkit-font-smoothing: antialiased;
+}
+
+a {
+	text-decoration: none;
+	color: #333;
+	text-transform: uppercase;
+}
+
+a:hover {
+	color: #b3b3b3;
 }
 
 header {
 	text-align: center;
 	margin-bottom: 120px;
 	h1 {
-		margin: 90px 0 10px 0;
-		font-size: 100px;
-
-		a {
-			text-decoration: none;
-			color: #000;
-		}
+		font-size: 70px;
+		letter-spacing: 6px;
+		margin: 90px auto 10px auto;
+		width: 75%;
 	}
 	p {
-		opacity: 0.25;
+		font-weight: 400;
+		color: #b3b3b3;
+		letter-spacing: 4px;
+		font-size: 80%;
+		text-transform: uppercase;
+
 	}
 }
 
@@ -44,14 +57,6 @@ header {
 
 	h2 {
 		margin-bottom: 5px;
-		a {
-			text-decoration: none;
-			color: #000;
-			&:hover{
-				color: #aeaeae;
-			}
-		}
-
 	}
 
 	> p {

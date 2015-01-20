@@ -16,7 +16,7 @@ if (Meteor.isClient) {
 
 	Template.posts.rendered = function(){
 		console.log(this)
-		$('header h1').fitText(1);
+		$('header h1').fitText();
 	}
 
 	Template.post.helpers({
