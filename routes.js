@@ -1,6 +1,16 @@
 Router.route('/', function () {
+  
+  var settings = Meteor.settings.public;
+  if(settings.auth){
+    console.log(Meteor.userId())
+    if(!Meteor.userId()){
+      this.render('login');
+      return
+    };
+  }
+
   this.render('posts', {
-  	data: function () {
+    data: function () {
       return Posts.find();
     }
   });

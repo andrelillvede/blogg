@@ -1,24 +1,15 @@
 if (Meteor.isClient) {
 	Posts = new Meteor.Collection('posts');
 	Meteor.subscribe('posts');
-
-	
-	Meteor.call('getBlogSettings', function(err ,res){
-		Session.set('blogSettings', res)
-	})
+	var settings = Meteor.settings.public;
 
 	Template.header.rendered = function(){
-		Tracker.autorun(function(){
-			var settings = Session.get('blogSettings')
-			console.log(settings)
-			if(settings)
-				document.title = settings.title;
-		})
+		document.title = settings.title;
 	}
 
 	Template.header.helpers({
 		settings: function(){
-			return Session.get('blogSettings')
+			return settings;
 		}
 	})
 
@@ -39,10 +30,30 @@ if (Meteor.isClient) {
 			return moment(date, "YYMMDD").format('LL')
 		}
 	})
+
+	Template.login.events({
+
+    'submit #login-form' : function(e, t){
+      e.preventDefault();
+      var name = t.find('#login-name').value
+        , password = t.find('#login-password').value;
+
+        Meteor.loginWithPassword(name, password, function(err){
+        if (err)
+        	console.log(err)
+        else
+         	return
+      });
+         return false; 
+      }
+  });
 }
 
 if (Meteor.isServer) {
  	Meteor.startup(function () {
+ 		if(!Meteor.users.findOne({username: Meteor.settings.username}))
+ 			Accounts.createUser({username: Meteor.settings.username, password: Meteor.settings.password});
+
 		Blog = {};
 
  		Blog.path = process.env['BLOG_PATH'];

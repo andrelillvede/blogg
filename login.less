@@ -1,0 +1,110 @@
+@import url(http://weloveiconfonts.com/api/?family=fontawesome);
+
+[class*="fontawesome-"]:before {
+	font-family: 'FontAwesome', sans-serif;
+}
+
+a {
+	color: #eee;
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+input {
+	border: none;
+	font-family: 'Open Sans', Arial, sans-serif;
+	font-size: 14px;
+	line-height: 1.5em;
+	padding: 0;
+	-webkit-appearance: none;
+}
+
+p {
+	line-height: 1.5em;
+}
+
+.clearfix {
+	*zoom: 1;
+
+	&:before,
+	&:after {
+		content: ' ';
+		display: table;
+	}
+
+	&:after {
+		clear: both;
+	}
+
+}
+
+.container {
+	left: 50%;
+	position: fixed;
+	top: 50%;
+	transform: translate(-50%, -50%);
+}
+
+/* ---------- LOGIN ---------- */
+
+#login {
+	width: 280px;
+}
+
+.container h1 {
+	text-align: center;
+}
+
+#login fieldset {
+	border: none;
+	padding: 0;
+}
+#login form span {
+	background-color: #363b41;
+	color: #606468;
+	display: block;
+	float: left;
+	height: 50px;
+	line-height: 50px;
+	text-align: center;
+	width: 50px;
+}
+
+#login form input {
+	height: 50px;
+}
+
+#login form input[type="text"], input[type="password"] {
+	background-color: #acacac;
+	color: #fff;
+	margin-bottom: 1em;
+	padding: 0 16px;
+	width: 230px;
+	outline: none;
+}
+
+#login form input[type="submit"] {
+	cursor: pointer;	
+	background-color: #acacac;
+	color: #fff;
+	font-weight: bold;
+	margin-bottom: 2em;
+	text-transform: uppercase;
+	width: 280px;
+	outline: none;
+}
+
+#login form input[type="submit"]:hover {
+	background-color: #d44179;
+}
+
+#login > p {
+	text-align: center;
+}
+
+#login > p span {
+	padding-left: 5px;
+}
