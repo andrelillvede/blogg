@@ -19,12 +19,6 @@ if (Meteor.isClient) {
 		$('header h1').fitText(1);
 	}
 
-	Template.posts.helpers({
-		posts: function(){
-			return Posts.find({}, {sort: {date: -1}});
-		}
-	})
-
 	Template.post.helpers({
 		prettyDate: function(date){
 			return moment(date, "YYMMDD").format('LL')
