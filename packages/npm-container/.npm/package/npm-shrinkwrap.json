@@ -1,0 +1,12 @@
+{
+  "dependencies": {
+    "etag": {
+      "version": "1.5.1",
+      "dependencies": {
+        "crc": {
+          "version": "3.2.1"
+        }
+      }
+    }
+  }
+}

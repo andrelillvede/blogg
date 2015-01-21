@@ -54,8 +54,8 @@
 
 		<div class="images {{columns}}">
 			{{#each images}}
-			<a href="/image/{{../id}}/{{.}}/1200" class="fresco" data-fresco-group="{{../gallery}}">
-				<div style="background-image: url(/image/{{../id}}/{{.}}/{{../image_size}})" class="image"></div>
+			<a href="/image/{{../id}}/1200/{{.}}" class="fresco" data-fresco-group="{{../gallery}}">
+				<div style="background-image: url(/image/{{../id}}/{{../image_size}}/{{.}})" class="image"></div>
 			</a>
 			{{/each}}
 		</div>
