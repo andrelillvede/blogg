@@ -31,7 +31,7 @@ Router.route('/image/:post/:filename/:imageSize', {where: 'server'})
 
     var headers = {
       'Content-type': 'image/png',
-      'Cache-Control', 'public, max-age=31557600')
+      'Cache-Control': 'public, max-age=31557600'
     };
 
     this.response.writeHead(200, headers);
