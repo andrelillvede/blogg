@@ -2,7 +2,6 @@ Router.route('/', function () {
   
   var settings = Meteor.settings.public;
   if(settings.auth){
-    console.log(Meteor.userId())
     if(!Meteor.userId()){
       this.render('login');
       return
@@ -32,6 +31,7 @@ Router.route('/image/:post/:filename/:imageSize', {where: 'server'})
 
     var headers = {
       'Content-type': 'image/png',
+      'Cache-Control', 'public, max-age=31557600');
     };
 
     this.response.writeHead(200, headers);
