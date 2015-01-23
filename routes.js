@@ -10,7 +10,7 @@ Router.route('/', function () {
 
   this.render('posts', {
     data: function () {
-      return Posts.find({}, {sort: {date: -1}});
+      return Posts.find({});
     }
   });
 });
