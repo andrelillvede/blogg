@@ -1,8 +1,8 @@
 if(Meteor.isServer){
-	Meteor.publish('posts', function(){
+	Meteor.publish('posts', function(limit){
 		var self = this;
-		var handle = Blog.posts.find({}).observeChanges({
-			added: function (id, fields) {
+		var handle = Blog.posts.find({}, { limit: limit }).observeChanges({
+			addedBefore: function (id, fields) {
 				self.added('posts', id, fields);
 			},
 			changed: function(id, fields){

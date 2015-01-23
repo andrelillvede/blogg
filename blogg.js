@@ -1,6 +1,13 @@
 if (Meteor.isClient) {
+
+	var ITEMS_INCREMENT = 2;
+	Session.setDefault('itemsLimit', ITEMS_INCREMENT);
+
 	Posts = new Meteor.Collection('posts');
-	Meteor.subscribe('posts');
+
+	Tracker.autorun(function() {
+		Meteor.subscribe('posts', Session.get('itemsLimit'));
+  	});
 	var settings = Meteor.settings.public;
 
 	Template.header.rendered = function(){
@@ -13,10 +20,15 @@ if (Meteor.isClient) {
 		}
 	})
 
-
 	Template.posts.rendered = function(){
 		$('header h1').fitText();
 	}
+
+	Template.posts.helpers({
+		'moreResults': function(){
+			return !(Posts.find().count() < Session.get("itemsLimit"));
+		} 
+	})
 
 	Template.post.helpers({
 		prettyDate: function(date){
@@ -25,21 +37,46 @@ if (Meteor.isClient) {
 	})
 
 	Template.login.events({
+	    'submit #login-form' : function(e, t){
+	      e.preventDefault();
+	      var name = t.find('#login-name').value
+	        , password = t.find('#login-password').value;
 
-    'submit #login-form' : function(e, t){
-      e.preventDefault();
-      var name = t.find('#login-name').value
-        , password = t.find('#login-password').value;
+	        Meteor.loginWithPassword(name, password, function(err){
+	        	if (err)
+	        		console.log(err)
+	        	else
+	         		return
+	      	});
+	        
+	        return false; 
+	  	}
+  	});
 
-        Meteor.loginWithPassword(name, password, function(err){
-        if (err)
-        	console.log(err)
-        else
-         	return
-      });
-         return false; 
-      }
-  });
+  	// whenever #showMoreResults becomes visible, retrieve more results
+  	function showMoreVisible() {
+  	    var threshold, target = $("#showMoreResults");
+  	    if (!target.length) return;
+  	 
+  	    threshold = $(window).scrollTop() + $(window).height() - target.height();
+  	 
+  	    if (target.offset().top < threshold) {
+  	        if (!target.data("visible")) {
+  	            // console.log("target became visible (inside viewable area)");
+  	            target.data("visible", true);
+  	            Session.set("itemsLimit",
+  	                Session.get("itemsLimit") + ITEMS_INCREMENT);
+  	        }
+  	    } else {
+  	        if (target.data("visible")) {
+  	            // console.log("target became invisible (below viewable arae)");
+  	            target.data("visible", false);
+  	        }
+  	    }        
+  	}
+  	 
+  	// run the above func every time the user scrolls
+  	$(window).scroll(showMoreVisible);
 }
 
 if (Meteor.isServer) {
