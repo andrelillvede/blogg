@@ -1,4 +1,10 @@
 /* CSS declarations go here */
+@font-face {
+	font-family: 'tt0142m';
+	src: url('/fonts/tt0142m.eot');
+	src: local('/fonts/tt0142m'), url('/fonts/tt0142m.woff') format('woff'), url('/public/tt0142m.ttf') format('truetype');
+}
+
 html {
 	box-sizing: border-box;
 }
@@ -8,7 +14,7 @@ html {
 }
 
 body {
-	font-family: 'Montserrat', sans-serif;
+	font-family: 'tt0142m', 'Montserrat', sans-serif;
 	-webkit-font-smoothing: antialiased;
 	color: #333;
 }
@@ -28,9 +34,10 @@ header {
 	h1 {
 		text-transform: uppercase;
 		font-size: 70px;
-		letter-spacing: 6px;
+		letter-spacing: 20px;
 		margin: 90px auto 10px auto;
 		width: 75%;
+		text-shadow: 2px 3px 5px #aeaeae;
 	}
 	p {
 		font-family: "Source Sans Pro","Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -57,6 +64,7 @@ header {
 
 	h2 {
 		margin-bottom: 10px;
+		letter-spacing: 2px;
 	}
 
 	> p {
