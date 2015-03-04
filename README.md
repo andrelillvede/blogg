@@ -1,1 +1,1 @@
-Filbaserad blogg
+bildblogg

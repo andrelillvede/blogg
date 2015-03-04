@@ -30,22 +30,26 @@
 
 	</div>
 </template>
+
 <template name="loading">
 	loading
 </template>
 
 <template name="posts">
 	{{> header }}
+	
 	<div>
 		{{#each .}}
-		{{> post}}
+			{{> post}}
 		{{/each}}		
 	</div>
+
 	{{#if moreResults}}
 	    <div id="showMoreResults" style="text-align: center">
 	        <span class="loading">Laddar fler inlägg...</span>
 	    </div>
 	{{/if}}
+	
 </template>
 
 <template name="post">

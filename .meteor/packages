@@ -5,18 +5,16 @@
 # but you can also edit it by hand.
 
 meteor-platform
-meteorhacks:npm
-fs
-
-npm-container
-markdown
-iron:router
-imageserve
-peerlibrary:async
-less
-lightbox
-mrt:fittext
-momentjs:moment
-accounts-base
-accounts-password
-datariot:ganalytics
+#iron:router
+#less
+#markdown
+#accounts-base
+#accounts-password
+lvd-blogg
+#lvd-imageserve
+#lvd-fs
+#lvd-lightbox
+#peerlibrary:async
+#mrt:fittext
+#momentjs:moment
+#datariot:ganalytics
