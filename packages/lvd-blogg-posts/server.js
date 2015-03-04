@@ -1,5 +1,7 @@
 PostsCollection = new Mongo.Collection('lvd-blogg-posts/posts');
 
+PostsCollection.insert({title: "title", date: Date.now(), text: "text"})
+
 Meteor.publish('lvd-blogg-posts/posts', function(limit){
 	return PostsCollection.find({}, { limit: limit, sort: {date: -1} });
 });
@@ -8,9 +10,10 @@ Meteor.methods({
 	'lvd-blogg-posts/addPost': function(post){
 		check(post, {
 			title: String,
-			date: Date,
-			images: [String],
-			text: String
+			date: Number,
+			text: String,
+			imageColumns: Number,
+			imageSize: Number
 		});
 
 		PostsCollection.insert(post);
@@ -25,7 +28,6 @@ Meteor.methods({
 		check(post, {
 			title: Match.Optional(String),
 			date: Match.Optional(Date),
-			images: Match.Optional([String]),
 			text: Match.Optional(String)
 		});
 

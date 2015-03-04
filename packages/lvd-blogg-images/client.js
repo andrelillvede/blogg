@@ -13,7 +13,7 @@ Images = function(options){
 	var images = new Mongo.Collection('lvd-blogg-images/images');
 	Meteor.subscribe('lvd-blogg-images/images');
 
-	var addImage = function(postId, imageObj){
+	var addImage = function(imageObj){
 		//uploadToS3
 		//add to images collection
 		//Meteor.call('lvd-blogg-images/addImage', postId, imageObj)

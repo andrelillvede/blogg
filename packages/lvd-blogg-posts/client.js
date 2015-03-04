@@ -5,6 +5,8 @@ post = {
 	date:
 	images:
 	text:
+	imageColumns:
+	imageSize
 }
 
 */
@@ -12,11 +14,12 @@ post = {
 
 Posts = function(options){
 	var entries = new Mongo.Collection('lvd-blogg-posts/posts');
-	var initialLimit = Match.test(options.limit) ? options.limit : 2;
+	var initialLimit = Match.test(options.limit, Number) ? options.limit : 2;
+
 	Meteor.subscribe('lvd-blogg-posts/posts', initialLimit);
 
 	var addPost = function(post){
-		//Meteor.call('lvd-blogg-posts/addPost', post)
+		Meteor.call('lvd-blogg-posts/addPost', post);
 	};
 
 	var removePost = function(postId){

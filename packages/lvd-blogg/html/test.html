@@ -4,4 +4,11 @@
 
 <body>
 	<h1>test</h1>
+	{{>posts}}
 </body>
+
+<template name="posts">
+	{{#each posts}}
+		{{title}}
+	{{/each}}
+</template>

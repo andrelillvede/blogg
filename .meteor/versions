@@ -36,6 +36,7 @@ livedata@1.0.12
 localstorage@1.0.2
 logging@1.0.6
 lvd-blogg@0.0.1
+lvd-blogg-posts@0.0.1
 meteor@1.1.4
 meteor-platform@1.2.1
 minifiers@1.1.3
