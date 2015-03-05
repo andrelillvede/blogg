@@ -1,14 +1,22 @@
 
+
 Template.posts.helpers({
 	posts: function(){
-		var posts = Posts({limit: 1000});
-		posts.addPost({
-			title: "added",
-			date: Date.now(),
-			text: "text",
-			imageColumns: 3,
-			imageSize: 500
-		})
-		return posts.entries.find();
+		Posts.addPost({
+			title: "added3",
+			author: "andre",
+			text: "text"
+		});
+
+
+		return Posts.entries.find();
 	}
+});
+
+Template.s3_tester.events({
+    "click button.upload": function(){
+        var files = $("input.file_bag")[0].files;
+
+		Images.addImage(files, {});
+    }
 });

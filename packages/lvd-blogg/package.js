@@ -13,7 +13,7 @@ Package.describe({
 Package.onUse(function(api) {
   api.versionsFrom('1.0.3.1');
 
-  api.imply('lvd-blogg-posts');
+  api.imply(['lvd-blogg-posts', 'lvd-blogg-images']);
   api.use(['iron:router@1.0.7', 'accounts-base', 'accounts-password'], ['client', 'server']);
   api.use(['templating', 'less'], 'client');
 

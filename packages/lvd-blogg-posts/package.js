@@ -16,6 +16,7 @@ Package.onUse(function(api) {
 
   api.export('Posts');
 
-  api.addFiles(['client.js'], 'client');
-  api.addFiles(['server.js'], 'server');
+  api.addFiles(['posts-common.js'], ['client', 'server']);
+  api.addFiles(['posts-client.js'], 'client');
+  api.addFiles(['posts-server.js'], 'server');
 });

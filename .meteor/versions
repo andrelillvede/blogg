@@ -11,6 +11,7 @@ callback-hook@1.0.2
 check@1.0.4
 ddp@1.0.14
 deps@1.0.6
+edgee:slingshot@0.4.1
 ejson@1.0.5
 email@1.0.5
 fastclick@1.0.2
@@ -36,6 +37,7 @@ livedata@1.0.12
 localstorage@1.0.2
 logging@1.0.6
 lvd-blogg@0.0.1
+lvd-blogg-images@0.0.1
 lvd-blogg-posts@0.0.1
 meteor@1.1.4
 meteor-platform@1.2.1

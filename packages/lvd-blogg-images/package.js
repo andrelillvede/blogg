@@ -12,6 +12,10 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.0.3.1');
-  api.addFiles(['client.js'], 'client');
-  api.addFiles(['server.js'], 'server');
+  api.use(['edgee:slingshot@0.4.1', 'mongo'], ['client', 'server']);
+  api.addFiles(['images-common.js'], ['client', 'server']);
+  api.addFiles(['images-client.js'], 'client');
+  api.addFiles(['images-server.js'], 'server');
+
+  api.export('Images');
 });
