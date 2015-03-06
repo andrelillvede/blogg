@@ -23,13 +23,25 @@ Meteor.publish('lvd-blogg-images/images', function(){
 
 Meteor.methods({
 	'lvd-blogg-images/addImage': function(imageObj){
-		check(imageObj, {
-			postId: String,
-			filename: String,
-			date: Date,
-			originalLink: String
-		});
+		console.log('addImage:', imageObj)
+		// check(imageObj, {
+		// 	postId: String,
+		// 	filename: String,
+		// 	date: Date,
+		// 	originalLink: String
+		// });
 
-		ImageCollection.insert(image);
+		return ImageCollection.insert(imageObj);
+	},
+	'lvd-blogg-images/updateImage': function(imageId, imageObj){
+		// check(imageObj, {
+		// 	postId: String,
+		// 	filename: String,
+		// 	date: Date,
+		// 	originalLink: String,
+		// 	progress: Number
+		// });
+		console.log('updateImage: ', imageObj)
+		ImageCollection.update(imageId, {$set: imageObj});
 	}
 });

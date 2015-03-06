@@ -2,9 +2,9 @@
 
 post = {
 	title:
-	date:
-	images:
+	author:
 	text:
+	date:
 	imageColumns:
 	imageSize
 }

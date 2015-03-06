@@ -2,35 +2,48 @@
 
 imageObj = {
 	postId:
-	filename:
 	date:
-	originalLink:
+	filename:
+	url:
 }
 
 */
+
 
 var images = new Mongo.Collection('lvd-blogg-images/images');
 Meteor.subscribe('lvd-blogg-images/images');
 
 Images = {
-	addImage: function(files, imageObj){
+	addImage: function(file, imageObj){
 		var uploader = new Slingshot.Upload("uploads");
+		Meteor.call('lvd-blogg-images/addImage', imageObj, function(err, imageId){
+			if(err){
+				console.log('error when adding image to db', err);
+				return;
+			}
 
-		uploader.send(files[0], function (error, downloadUrl) {
-			if(error)
-				console.log(error)
+			uploader.send(file, function (err, downloadUrl) {
+				images.find(imageId)
+				if(err){
+					console.log('error sending file to s3', err);
+					return;
+				}
 
-			console.log(downloadUrl)
+				Meteor.call('lvd-blogg-images/updateImage', imageId, {url: encodeURI(downloadUrl), progress: 100});
+			});
+
+
+			var statusInterval = Meteor.setInterval(function(){
+				if(uploader.status() !== 'done'){
+					var progress = uploader.progress() === 'NaN' ? 0 : uploader.progress() * 100;
+					Meteor.call('lvd-blogg-images/updateImage', imageId, {progress: progress, url: uploader.url(true)});
+				}else{
+					Meteor.clearInterval(statusInterval);
+				}
+			}, 100);
+
 		});
-		// Meteor.call('lvd-blogg-images/addImage', postId, imageObj, function(err, res){
-		// 	if(err){
-		// 		console.log('error when adding image', err)
-		// 		return;
-		// 	}
-
-		// 	//uploadToS3(Meteor.call)
-		// })
-
+		console.log(images.find().fetch())
 		// //add to images collection
 		// 	}
 	},

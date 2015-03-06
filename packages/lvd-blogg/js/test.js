@@ -1,22 +1,34 @@
-
+Template.body.events({
+	'click #add-post': function(){
+		Posts.addPost({
+			title: '' + Math.floor((Math.random() * 100) + 1),
+			author: 'andre',
+			text: ''
+		});
+	}
+})
 
 Template.posts.helpers({
 	posts: function(){
-		Posts.addPost({
-			title: "added3",
-			author: "andre",
-			text: "text"
-		});
-
-
 		return Posts.entries.find();
+	},
+	images: function(){
+		return Images.getPostImages(this._id);
 	}
 });
 
-Template.s3_tester.events({
-    "click button.upload": function(){
-        var files = $("input.file_bag")[0].files;
+Template.image.helpers({
+	uploaded: function(){
+		return this.progress === 100;
+	},
+	uploadLeft: function(){
+		return 100 - this.progress;
+	}
+});
 
-		Images.addImage(files, {});
+Template.uploader.events({
+    "click button.upload": function(e, tmpl){
+        var files = $("input.file_bag")[0].files;
+		Images.addImage(files[0], {postId: this._id, name:files[0].name});
     }
 });
