@@ -1,5 +1,5 @@
 Package.describe({
-  name: 'lvd-blogg',
+  name: 'lvd-blogg-storage-s3',
   version: '0.0.1',
   // Brief, one-line summary of the package.
   summary: '',
@@ -12,13 +12,10 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.0.3.1');
+  api.use(['edgee:slingshot@0.4.1', 'peerlibrary:aws-sdk'], ['client', 'server'])
+  api.addFiles('storage-s3-common.js', ['client', 'server']);
+  api.addFiles('storage-s3-client.js', 'client');
+  api.addFiles('storage-s3-server.js', 'server');
 
-  api.imply(['lvd-blogg-posts', 'lvd-blogg-images']);
-  api.use(['iron:router@1.0.7', 'accounts-base', 'accounts-password'], ['client', 'server']);
-  api.use(['templating', 'less'], 'client');
-
-  api.addFiles(['html/test.html'], 'client');
-  api.addFiles(['js/test.js'], 'client');
-
-  // api.addFiles(['js/routes.js'], 'client');
+  api.export('Storage');
 });

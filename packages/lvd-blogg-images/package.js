@@ -12,7 +12,7 @@ Package.describe({
 
 Package.onUse(function(api) {
   api.versionsFrom('1.0.3.1');
-  api.use(['edgee:slingshot@0.4.1', 'mongo'], ['client', 'server']);
+  api.use(['mongo', 'lvd-blogg-storage-s3'], ['client', 'server']);
   api.addFiles(['images-common.js'], ['client', 'server']);
   api.addFiles(['images-client.js'], 'client');
   api.addFiles(['images-server.js'], 'server');

@@ -6,12 +6,19 @@ Template.body.events({
 			text: ''
 		});
 	}
-})
+});
+
+Template.registerHelper('settings', function(){
+	return Meteor.settings.public;
+});
 
 Template.posts.helpers({
 	posts: function(){
 		return Posts.entries.find();
-	},
+	}
+});
+
+Template.post.helpers({
 	images: function(){
 		return Images.getPostImages(this._id);
 	}
@@ -23,6 +30,10 @@ Template.image.helpers({
 	},
 	uploadLeft: function(){
 		return 100 - this.progress;
+	},
+	url: function(width, height){
+		console.log(width)
+		return Images.getCacheImage(this._id, width, height) || this.url;
 	}
 });
 

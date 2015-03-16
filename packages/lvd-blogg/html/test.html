@@ -3,36 +3,45 @@
 </head>
 
 <body>
-	<h1>test</h1>
+	{{>header}}
 	<button id="add-post">Add post</button>
 	{{>posts}}
 </body>
 
+<template name="header">
+	<header>
+		<h1><a href="/">{{settings.title}}</a></h1>
+		<p>{{settings.subtitle}}</p>
+	</header>
+</template>
+
 <template name="posts">
 	{{#each posts}}
-		<div style="background-color:grey; margin-bottom:20px; overflow: auto">
-			{{title}}<br>
-			{{>uploader}}<br>
-			{{#each images}}
-				{{> image}}
-			{{/each}}
-			<br><br>
-		</div>
+		{{> post}}
 	{{/each}}
-
 </template>
+
+<template name="post">
+	<div style="background-color:grey; margin-bottom:20px; overflow: auto">
+		<h1>{{title}}</h1>
+		<p>{{>uploader}}</p>
+
+		{{#each images}}
+			{{> image}}
+		{{/each}}
+	</div>
+</template>	
 
 
 <template name="image">
-
-	<div style="float:left; background: url({{url}}); height: 200px; width:200px; background-size: cover; background-position: center center; background-repeat: no-repeat">
+	
+	<div style="float:left; background: url({{url 200 200}}); height: 200px; width:200px; background-size: cover; background-position: center center; background-repeat: no-repeat">
 		{{#unless uploaded}}
 			<div style="height: {{uploadLeft}}%; background-color: black; opacity:0.5"></div>
 		{{/unless}}
 	</div>
-
-	
 </template>
+
 <template name="uploader">
     <input type="file" class="file_bag">
     <button class="upload">Upload</button>
