@@ -69,27 +69,30 @@ Meteor.methods({
 		var cacheKey = Random.createWithSeeds(EJSON.stringify(cacheSeed, {canonical: true})).id();
 		var cacheName = cacheKey + '.' + imageExt;
 
-		var params = {
-			FunctionName: 'bcktResize', /* required */
-			InvokeArgs: JSON.stringify({
-				options: {
-					srcBucket: srcBucket,
-					cacheBucket: cacheBucket,
-					srcKey: imageObj.name,
-					cacheKey: cacheKey,
-					width: width,
-					height: height
-				}
-			})
-		};
+		s3.headObject({Bucket: Meteor.settings.cacheBucket, Key: cacheName}, function(err, data){
 
+			if (err && err.code === 'NotFound') {
+				var params = {
+					FunctionName: 'bcktResize', /* required */
+					InvokeArgs: JSON.stringify({
+						options: {
+							srcBucket: srcBucket,
+							cacheBucket: cacheBucket,
+							srcKey: imageObj.name,
+							cacheKey: cacheKey,
+							width: width,
+							height: height
+						}
+					})
+				};
+				lambda.invokeAsync(params, function(err, data) {
+					if (err) console.log(err, err.stack); // an error occurred
+					else     console.log(data);           // successful response
+				});
+			}
+		});
 
 		var cacheUrl = 'https://s3-eu-west-1.amazonaws.com/' + cacheBucket + '/' + cacheName;
-
-		lambda.invokeAsync(params, function(err, data) {
-		  if (err) console.log(err, err.stack); // an error occurred
-		  else     console.log(data);           // successful response
-		});
 
 		return cacheUrl;
 

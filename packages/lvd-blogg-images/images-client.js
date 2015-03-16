@@ -47,12 +47,11 @@ Images = {
 	deleteFileFromStorage: Storage.deleteObject,
 	getCacheImage: function(imageId, width, height){
 		var imageObj = images.findOne(imageId);
-		if(!imageObj.cacheUrl){
-			console.log(width)
+
 			Meteor.call('lvd-blogg-storage/createCacheImage', imageObj, width, height, function(err, cacheUrl){
-				Meteor.call('lvd-blogg-images/updateImage', imageId, {cacheUrl: cacheUrl});
+				if(imageObj.cacheUrl !== cacheUrl)
+					Meteor.call('lvd-blogg-images/updateImage', imageId, {cacheUrl: cacheUrl});
 			});
-		}
 
 		return imageObj.cacheUrl;
 	}

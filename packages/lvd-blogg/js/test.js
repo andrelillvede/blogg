@@ -32,8 +32,8 @@ Template.image.helpers({
 		return 100 - this.progress;
 	},
 	url: function(width, height){
-		console.log(width)
-		return Images.getCacheImage(this._id, width, height) || this.url;
+		console.log(Images.getCacheImage(this._id, width, height) && (this.progress === 100))
+		return Images.getCacheImage(this._id, width, height) && (this.progress === 100) ? Images.getCacheImage(this._id, width, height) : this.url;
 	}
 });
 
