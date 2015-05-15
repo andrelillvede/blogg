@@ -8,8 +8,8 @@ meteor-platform
 #iron:router
 #less
 #markdown
-#accounts-base
-#accounts-password
+accounts-base
+accounts-password
 lvd-blogg
 #lvd-imageserve
 #lvd-fs

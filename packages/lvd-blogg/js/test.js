@@ -1,5 +1,5 @@
 Template.body.events({
-	'click #add-post': function(){
+	'click #add-post': function() {
 		Posts.addPost({
 			title: '' + Math.floor((Math.random() * 100) + 1),
 			author: 'andre',
@@ -8,38 +8,37 @@ Template.body.events({
 	}
 });
 
-Template.registerHelper('settings', function(){
+Template.registerHelper('settings', function() {
 	return Meteor.settings.public;
 });
 
 Template.posts.helpers({
-	posts: function(){
+	posts: function() {
 		return Posts.entries.find();
 	}
 });
 
 Template.post.helpers({
-	images: function(){
+	images: function() {
 		return Images.getPostImages(this._id);
+	},
+	uploads: function(){
+		return Storage.uploads.find({postId: this._id})
 	}
 });
 
-Template.image.helpers({
-	uploaded: function(){
-		return this.progress === 100;
+Template.upload.helpers({
+	uploaded: function() {
+		return this.progress === 1;
 	},
-	uploadLeft: function(){
-		return 100 - this.progress;
-	},
-	url: function(width, height){
-		console.log(Images.getCacheImage(this._id, width, height) && (this.progress === 100))
-		return Images.getCacheImage(this._id, width, height) && (this.progress === 100) ? Images.getCacheImage(this._id, width, height) : this.url;
+	uploadLeft: function() {
+		return 100 - this.progress*100;
 	}
 });
 
 Template.uploader.events({
-    "click button.upload": function(e, tmpl){
-        var files = $("input.file_bag")[0].files;
-		Images.addImage(files[0], {postId: this._id, name:files[0].name});
-    }
+	"click button.upload": function(e, tmpl) {
+		var files = tmpl.$("input.file_bag")[0].files;
+		Storage.upload(files[0], {postId: this._id, name: files[0].name});
+	}
 });

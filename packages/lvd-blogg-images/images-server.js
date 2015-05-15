@@ -1,12 +1,12 @@
 ImageCollection = new Mongo.Collection('lvd-blogg-images/images');
 
-Meteor.publish('lvd-blogg-images/images', function(){
+Meteor.publish('lvd-blogg-images/images', function() {
 	return ImageCollection.find({});
 });
 
 Meteor.methods({
-	'lvd-blogg-images/addImage': function(imageObj){
-		console.log('addImage:', imageObj)
+	'lvd-blogg-images/addImage': function(imageObj) {
+		console.log('addImage:', imageObj);
 		// check(imageObj, {
 		// 	postId: String,
 		// 	filename: String,
@@ -16,7 +16,7 @@ Meteor.methods({
 
 		return ImageCollection.insert(imageObj);
 	},
-	'lvd-blogg-images/updateImage': function(imageId, imageObj){
+	'lvd-blogg-images/updateImage': function(imageId, imageObj) {
 		// check(imageObj, {
 		// 	postId: String,
 		// 	filename: String,
@@ -24,7 +24,7 @@ Meteor.methods({
 		// 	originalLink: String,
 		// 	progress: Number
 		// });
-		console.log('updateImage: ', imageObj)
+		console.log('updateImage: ', imageObj);
 		ImageCollection.update(imageId, {$set: imageObj});
 	}
 });

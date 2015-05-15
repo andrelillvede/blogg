@@ -29,13 +29,25 @@
 		{{#each images}}
 			{{> image}}
 		{{/each}}
+
+		{{#each uploads}}
+			{{> upload}}
+		{{/each}}
 	</div>
 </template>	
 
+<template name="upload">
+	
+	<div style="float:left; background: url({{url}}); height: 200px; width:200px; background-size: cover; background-position: center center; background-repeat: no-repeat">
+		{{#unless uploaded}}
+			<div style="height: {{uploadLeft}}%; background-color: black; opacity:0.5"></div>
+		{{/unless}}
+	</div>
+</template>
 
 <template name="image">
 	
-	<div style="float:left; background: url({{url 200 200}}); height: 200px; width:200px; background-size: cover; background-position: center center; background-repeat: no-repeat">
+	<div style="float:left; background: url(/image/{{postId}}/500/{{name}}); height: 200px; width:200px; background-size: cover; background-position: center center; background-repeat: no-repeat">
 		{{#unless uploaded}}
 			<div style="height: {{uploadLeft}}%; background-color: black; opacity:0.5"></div>
 		{{/unless}}

@@ -11,7 +11,7 @@ callback-hook@1.0.2
 check@1.0.4
 ddp@1.0.14
 deps@1.0.6
-edgee:slingshot@0.4.1
+edgee:slingshot@0.6.2
 ejson@1.0.5
 email@1.0.5
 fastclick@1.0.2
@@ -49,8 +49,6 @@ mongo@1.0.11
 npm-bcrypt@0.7.7
 observe-sequence@1.0.4
 ordered-dict@1.0.2
-peerlibrary:aws-sdk@2.1.14_2
-peerlibrary:blocking@0.5.2
 random@1.0.2
 reactive-dict@1.0.5
 reactive-var@1.0.4

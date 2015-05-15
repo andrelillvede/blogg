@@ -1,13 +1,18 @@
+var AWS = Npm.require('aws-sdk');
 AWS.config.update({
 	accessKeyId: Meteor.settings.AWSAccessKeyId,
 	secretAccessKey: Meteor.settings.AWSSecretAccessKey,
 	region: Meteor.settings.AWSRegion
 });
+var s3 = new AWS.S3();
+var lambda = new AWS.Lambda();
 
-Slingshot.createDirective("uploads", Slingshot.S3Storage, {
+
+
+Slingshot.createDirective("postImages", Slingshot.S3Storage, {
 	bucket: Meteor.settings.bucket,
 	acl: "public-read",
-	authorize: function () {
+	authorize: function() {
 		//Deny uploads if user is not logged in.
 		// if (!this.userId) {
 		//   var message = "Please login before posting files";
@@ -16,85 +21,96 @@ Slingshot.createDirective("uploads", Slingshot.S3Storage, {
 
 		return true;
 	},
-	key: function (file) {
-		return file.name;
+	key: function(file, metaContext) {
+		return metaContext.postId + '/' + file.name;
 	}
 });
+Storage = {};
+Storage.cacheKey = function cacheKey(imageObj, width, height){
+	var imageExt = imageObj.name.split('/').pop().split('.')[1];
+	var cacheSeed = imageObj.postId + '-' + imageObj.name + '-' + width + 'x' + height;
+	var cacheKey = Random.createWithSeeds(EJSON.stringify(cacheSeed, {canonical: true})).id();
 
-var s3 = new AWS.S3()
-var lambda = new AWS.Lambda()
+	return cacheKey + '.' + imageExt
+}
 
 Meteor.methods({
-	'lvd-blogg-storage/objectExists': function(path){
-		var params = {
-			Bucket: Meteor.settings.bucket, /* required */
-			Key: path /* required */
-		};
+	'lvd-blogg-storage/getCacheImageStream': function(imageObj, width, height){
+		var imgStream = s3.getObject({
+		      Bucket: Meteor.settings.cacheBucket,
+		      Key: Storage.cacheKey(imageObj, width, height)
+		    }).createReadStream();
 
-		try {
-			var res = s3.headObjectSync(params);
-		} catch (e) {
-			console.log('exception when getting headObjectSync', e); // pass exception object to error handler
-		}
-		console.log(res)
-		if(res)
-			return true;
-
-		return false;
+		return imgStream
 	},
-	'lvd-blogg-storage/deleteObject': function(path){
-		var params = {
-			Bucket: Meteor.settings.bucket, /* required */
-			Key: path /* required */
-		};
+	'lvd-blogg-storage/objectExists': function(path) {
+		// var params = {
+		// 	Bucket: Meteor.settings.bucket, /* required */
+		// 	Key: path /* required */
+		// };
 
-		try {
-			var res = s3.deleteObjectSync(params);
-		} catch (e) {
-			console.log('exception when deleting object', e); // pass exception object to error handler
-		}
-		console.log(res)
-		if(res)
-			return true;
+		// try {
+		// 	var res = s3.headObjectSync(params);
+		// } catch (e) {
+		// 	console.log('exception when getting headObjectSync', e); // pass exception object to error handler
+		// }
+		// console.log(res);
+		// if(res)
+		// 	return true;
 
-		return false;
+		// return false;
 	},
-	'lvd-blogg-storage/createCacheImage': function(imageObj, width, height){
+	'lvd-blogg-storage/deleteObject': function(path) {
+		// var params = {
+		// 	Bucket: Meteor.settings.bucket, /* required */
+		// 	Key: path /* required */
+		// };
+
+		// try {
+		// 	var res = s3.deleteObjectSync(params);
+		// } catch (e) {
+		// 		console.log('exception when deleting object', e); // pass exception object to error handler
+		// }
+		// console.log(res);
+		// if(res)
+		// 	return true;
+
+		// return false;
+	},
+	'lvd-blogg-storage/createCacheImage': function(imageObj, width, height) {
+
+		Future = Npm.require('fibers/future');
 
 		var srcBucket = Meteor.settings.bucket;
 		var cacheBucket = Meteor.settings.cacheBucket;
-		var imageExt = imageObj.name.split('/').pop().split('.')[1];
+		
+		var headObjectSync = Meteor.wrapAsync(s3.headObject, s3)
+		var invokeSync = Meteor.wrapAsync(lambda.invoke, lambda)
+		var cacheKey = Storage.cacheKey(imageObj, width, height)
 
-		var cacheSeed = imageObj.postId + '-' + imageObj.name + '-' + width + 'x' + height; 
-		var cacheKey = Random.createWithSeeds(EJSON.stringify(cacheSeed, {canonical: true})).id();
-		var cacheName = cacheKey + '.' + imageExt;
+		try{
+			var resExists = headObjectSync({Bucket: cacheBucket, Key: cacheKey});
+			return false
+		}catch(e){
+			var params = {
+				FunctionName: 'bcktResize', /* required */
+				Payload: JSON.stringify({
+					options: {
+						srcBucket: srcBucket,
+						cacheBucket: cacheBucket,
+						srcKey: imageObj.postId + '/' + imageObj.name,
+						cacheKey: cacheKey,
+						width: width,
+						height: height
+					}
+				})
+			};
 
-		s3.headObject({Bucket: Meteor.settings.cacheBucket, Key: cacheName}, function(err, data){
+			var resLambda = invokeSync(params);
 
-			if (err && err.code === 'NotFound') {
-				var params = {
-					FunctionName: 'bcktResize', /* required */
-					InvokeArgs: JSON.stringify({
-						options: {
-							srcBucket: srcBucket,
-							cacheBucket: cacheBucket,
-							srcKey: imageObj.name,
-							cacheKey: cacheKey,
-							width: width,
-							height: height
-						}
-					})
-				};
-				lambda.invokeAsync(params, function(err, data) {
-					if (err) console.log(err, err.stack); // an error occurred
-					else     console.log(data);           // successful response
-				});
-			}
-		});
+		}
 
-		var cacheUrl = 'https://s3-eu-west-1.amazonaws.com/' + cacheBucket + '/' + cacheName;
-
-		return cacheUrl;
+		return true;
 
 	}
 });

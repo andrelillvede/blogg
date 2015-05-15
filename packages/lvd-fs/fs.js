@@ -25,20 +25,20 @@ toWrap.forEach(function(fnName) {
 		Array.prototype.push.call(arguments, future.resolver());
 		fn.apply(fse, arguments);
 		return future.wait();
-	}
-})
+	};
+});
 
 Fs.exists = function(path) {
 	var future = new Future;
 	fse.exists(path, function(res) {
 		future.return(res);
-	})
+	});
 	return future.wait();
-}
+};
 
-Fs.watch = function(filename, listener){
-	return fse.watch(filename, Meteor.bindEnvironment(listener, 'Fs.watch callback'))
-}
+Fs.watch = function(filename, listener) {
+	return fse.watch(filename, Meteor.bindEnvironment(listener, 'Fs.watch callback'));
+};
 
 Fs.createWriteStream = fse.createWriteStream.bind(fse);
 Fs.createReadStream = fse.createReadStream.bind(fse);
