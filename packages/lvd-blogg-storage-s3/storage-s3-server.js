@@ -34,15 +34,51 @@ Storage.cacheKey = function cacheKey(imageObj, width, height){
 	return cacheKey + '.' + imageExt
 }
 
-Meteor.methods({
-	'lvd-blogg-storage/getCacheImageStream': function(imageObj, width, height){
-		var imgStream = s3.getObject({
-		      Bucket: Meteor.settings.cacheBucket,
-		      Key: Storage.cacheKey(imageObj, width, height)
-		    }).createReadStream();
+Storage.getCacheImageStream = function(imageObj, width, height){
+	var imgStream = s3.getObject({
+	      Bucket: Meteor.settings.cacheBucket,
+	      Key: Storage.cacheKey(imageObj, width, height)
+	    }).createReadStream();
 
-		return imgStream
-	},
+	return imgStream
+}
+
+Storage.createCacheImage = function(imageObj, width, height){
+	Future = Npm.require('fibers/future');
+
+	var srcBucket = Meteor.settings.bucket;
+	var cacheBucket = Meteor.settings.cacheBucket;
+	
+	var headObjectSync = Meteor.wrapAsync(s3.headObject, s3)
+	var invokeSync = Meteor.wrapAsync(lambda.invoke, lambda)
+	var cacheKey = Storage.cacheKey(imageObj, width, height)
+
+	try{
+		var resExists = headObjectSync({Bucket: cacheBucket, Key: cacheKey});
+		return false
+	}catch(e){
+		var params = {
+			FunctionName: 'bcktResize', /* required */
+			Payload: JSON.stringify({
+				options: {
+					srcBucket: srcBucket,
+					cacheBucket: cacheBucket,
+					srcKey: imageObj.postId + '/' + imageObj.name,
+					cacheKey: cacheKey,
+					width: width,
+					height: height
+				}
+			})
+		};
+
+		var resLambda = invokeSync(params);
+
+	}
+
+	return true;
+}
+
+Meteor.methods({
 	'lvd-blogg-storage/objectExists': function(path) {
 		// var params = {
 		// 	Bucket: Meteor.settings.bucket, /* required */
@@ -76,41 +112,5 @@ Meteor.methods({
 		// 	return true;
 
 		// return false;
-	},
-	'lvd-blogg-storage/createCacheImage': function(imageObj, width, height) {
-
-		Future = Npm.require('fibers/future');
-
-		var srcBucket = Meteor.settings.bucket;
-		var cacheBucket = Meteor.settings.cacheBucket;
-		
-		var headObjectSync = Meteor.wrapAsync(s3.headObject, s3)
-		var invokeSync = Meteor.wrapAsync(lambda.invoke, lambda)
-		var cacheKey = Storage.cacheKey(imageObj, width, height)
-
-		try{
-			var resExists = headObjectSync({Bucket: cacheBucket, Key: cacheKey});
-			return false
-		}catch(e){
-			var params = {
-				FunctionName: 'bcktResize', /* required */
-				Payload: JSON.stringify({
-					options: {
-						srcBucket: srcBucket,
-						cacheBucket: cacheBucket,
-						srcKey: imageObj.postId + '/' + imageObj.name,
-						cacheKey: cacheKey,
-						width: width,
-						height: height
-					}
-				})
-			};
-
-			var resLambda = invokeSync(params);
-
-		}
-
-		return true;
-
 	}
 });

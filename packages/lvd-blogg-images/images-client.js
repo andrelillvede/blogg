@@ -12,7 +12,6 @@ Storage.uploads.find().observe({
 				postId: newDoc.postId,
 				url: newDoc.url
 			})
-
 			Storage.uploads.remove(newDoc._id)
 		}
 	}

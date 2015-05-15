@@ -1,5 +1,5 @@
 Template.body.events({
-	'click #add-post': function() {
+	'click .add-post': function() {
 		Posts.addPost({
 			title: '' + Math.floor((Math.random() * 100) + 1),
 			author: 'andre',
@@ -12,6 +12,9 @@ Template.registerHelper('settings', function() {
 	return Meteor.settings.public;
 });
 
+// Template.body.onRendered(function(){
+// 	$('header h1').fitText();
+// })
 Template.posts.helpers({
 	posts: function() {
 		return Posts.entries.find();
@@ -31,14 +34,22 @@ Template.upload.helpers({
 	uploaded: function() {
 		return this.progress === 1;
 	},
-	uploadLeft: function() {
-		return 100 - this.progress*100;
+	uploadProgress: function() {
+		return Math.floor(this.progress*100);
 	}
 });
 
 Template.uploader.events({
-	"click button.upload": function(e, tmpl) {
-		var files = tmpl.$("input.file_bag")[0].files;
-		Storage.upload(files[0], {postId: this._id, name: files[0].name});
+	"change input[type=file]": function(e, tmpl) {
+		var self = this;
+		var fileControl = tmpl.$("input.file_bag")[0];
+		var files = fileControl.files;
+
+		for (var i = 0; i < files.length; i++) {
+			Storage.upload(files[i], {postId: self._id, name: files[i].name});
+		}
+
+
+		$(fileControl).val('')
 	}
 });

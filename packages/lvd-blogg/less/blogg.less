@@ -63,6 +63,8 @@ body {
 	font-family: 'futuramedium', 'Montserrat', sans-serif;
 	-webkit-font-smoothing: antialiased;
 	color: #333;
+	margin: 0 20px;
+	text-align: center;
 }
 
 a {
@@ -94,8 +96,7 @@ header {
 	}
 }
 
-#imagelightbox
-{
+#imagelightbox{
     position: fixed;
     z-index: 9999;
  
@@ -103,9 +104,26 @@ header {
     touch-action: none;
 }
 
+
+button {
+	&.add-post{
+		width: 70%;
+		height: 30px;
+		border: none;
+		font-family: "futuramedium","Helvetica Neue",Helvetica,Arial,sans-serif;
+		text-transform: uppercase;
+		outline: none;
+
+		&:hover{
+			opacity: 0.5;
+			cursor: pointer;
+		}
+	}
+}
+
 .post {
 	text-align: center;
-	padding: 0 30px;
+	//padding: 0 30px;
 	margin-bottom: 120px;
 
 	h2 {
@@ -124,6 +142,43 @@ header {
 
 	.text {
 		text-align: left;
+	}
+
+	.uploader {
+		::-webkit-file-upload-button {
+			border: none;
+			font-family: "futuramedium", "Helvetica Neue", Helvetica, Arial, sans-serif;
+			text-transform: uppercase;
+			outline: none;
+			padding: 6px;
+
+			&:hover{
+				opacity: 0.5;
+				cursor: pointer;
+			}
+		}
+	}
+
+	.uploads {
+		>.upload {
+			display: inline-block;
+			margin-right: 1%;
+			margin-bottom: 20px;
+			background-size: cover;
+			background-position: center center;
+			width: 100px;
+			height: 100px;
+			> div {
+				position: relative;
+				top: 50%;
+				transform: translateY(-50%);
+				>span {
+					padding: 0 3px;
+					background-color: black;
+					color: white;
+				}
+			}
+		}
 	}
 
 	.images {

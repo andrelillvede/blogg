@@ -6,8 +6,8 @@ Router.route('/image/:postId/:imageSize/:name', {where: 'server'})
 		this.response.writeHead(200, headers);
 
 		var imageObj = {name: this.params.name, postId: this.params.postId};
-		Meteor.call('lvd-blogg-storage/createCacheImage', imageObj, this.params.imageSize, this.params.imageSize);
-		
-		var imgStream = Meteor.call('lvd-blogg-storage/getCacheImageStream', imageObj, this.params.imageSize, this.params.imageSize)
+		Storage.createCacheImage(imageObj, this.params.imageSize, this.params.imageSize);
+
+		var imgStream = Storage.getCacheImageStream(imageObj, this.params.imageSize, this.params.imageSize)
   		imgStream.pipe(this.response);
 	});

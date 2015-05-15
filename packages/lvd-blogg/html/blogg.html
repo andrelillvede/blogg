@@ -1,5 +1,10 @@
+<head>
+	<title>test</title>
+</head>
+
 <body>
-	
+	{{>header}}
+	<button class="add-post">Add post</button>
 </body>
 
 <template name="header">
@@ -9,64 +14,45 @@
 	</header>
 </template>
 
-<template name="login">
-	<div class="container">
-		<h1>LOGGA IN!</h1>
-
-		<div id="login">
-			<form id="login-form">
-
-				<fieldset class="clearfix">
-
-					<p><span class="fontawesome-user"></span><input type="text" id="login-name" placeholder="Skriv användarnamn här..." required></p>
-					<p><span class="fontawesome-lock"></span><input type="password" id="login-password" placeholder="Skriv lösenord här..." required></p>
-					<p><input type="submit" value="Öppna sidan!"></p>
-
-				</fieldset>
-
-			</form>
-
-		</div> <!-- end login -->
-
-	</div>
-</template>
-
-<template name="loading">
-	loading
-</template>
-
 <template name="posts">
-	{{> header }}
-	
-	<div>
-		{{#each .}}
-			{{> post}}
-		{{/each}}		
-	</div>
-
-	{{#if moreResults}}
-	    <div id="showMoreResults" style="text-align: center">
-	        <span class="loading">Laddar fler inlägg...</span>
-	    </div>
-	{{/if}}
-	
+	{{#each posts}}
+		{{> post}}
+	{{/each}}
 </template>
 
 <template name="post">
-	<div class="post">
-		<h2><a href="/post/{{id}}">{{title}}</a></h2>
-		<p>{{prettyDate date}}</p>
-
-		<div class="images {{columns}}">
-			{{#each images}}
-			<a href="/image/{{../id}}/1200/{{.}}" class="fresco" data-fresco-group="{{../gallery}}">
-				<div style="background-image: url(/image/{{../id}}/{{../image_size}}/{{.}})" class="image"></div>
-			</a>
+	<div style="margin-bottom:20px; overflow: auto" class="post">
+		<h1>{{title}}</h1>
+		<p>{{>uploader}}</p>
+		<div class="uploads">
+			{{#each uploads}}
+				{{> upload}}
 			{{/each}}
 		</div>
-		<div class="text">
-			{{#markdown}}{{text}}{{/markdown}}
+		<div class="images three">
+			{{#each images}}
+				{{> image}}
+			{{/each}}
 		</div>
 	</div>
-	
+</template>	
+
+<template name="upload">
+	{{#unless uploaded}}
+	<div style="background-image: url({{url}})" class="upload">
+		<div><span>{{uploadProgress}}%</span></div>
+	</div>
+	{{/unless}}
+</template>
+
+<template name="image">
+	<a href="/image/{{postId}}/1200/{{name}}" class="fresco" data-fresco-group="{{../gallery}}">
+		<div style="background-image: url(/image/{{postId}}/500/{{name}})" class="image"></div>
+	</a>
+</template>
+
+<template name="uploader">
+	<div class="uploader">
+		<input type="file" class="file_bag" multiple>
+	</div>
 </template>
