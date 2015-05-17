@@ -38,6 +38,7 @@ lvd-blogg@0.0.1
 lvd-blogg-images@0.0.1
 lvd-blogg-posts@0.0.1
 lvd-blogg-storage-s3@0.0.1
+lvd-lightbox@1.0.0
 meteor@1.1.6
 meteor-platform@1.2.2
 minifiers@1.1.5

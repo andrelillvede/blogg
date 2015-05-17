@@ -12,9 +12,18 @@ Template.registerHelper('settings', function() {
 	return Meteor.settings.public;
 });
 
+
 // Template.body.onRendered(function(){
 // 	$('header h1').fitText();
 // })
+
+Template.body.onRendered(function(){
+	$('a[data-rel^=lightcase]').lightcase({
+		shrinkFactor:1
+
+	});
+})
+
 Template.posts.helpers({
 	posts: function() {
 		return Posts.entries.find();
