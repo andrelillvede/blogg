@@ -1,0 +1,72 @@
+<body>
+	
+</body>
+
+<template name="header">
+	<header>
+		<h1><a href="/">{{settings.title}}</a></h1>
+		<p>{{settings.subtitle}}</p>
+	</header>
+</template>
+
+<template name="login">
+	<div class="container">
+		<h1>LOGGA IN!</h1>
+
+		<div id="login">
+			<form id="login-form">
+
+				<fieldset class="clearfix">
+
+					<p><span class="fontawesome-user"></span><input type="text" id="login-name" placeholder="Skriv användarnamn här..." required></p>
+					<p><span class="fontawesome-lock"></span><input type="password" id="login-password" placeholder="Skriv lösenord här..." required></p>
+					<p><input type="submit" value="Öppna sidan!"></p>
+
+				</fieldset>
+
+			</form>
+
+		</div> <!-- end login -->
+
+	</div>
+</template>
+
+<template name="loading">
+	loading
+</template>
+
+<template name="posts">
+	{{> header }}
+	
+	<div>
+		{{#each .}}
+			{{> post}}
+		{{/each}}		
+	</div>
+
+	{{#if moreResults}}
+	    <div id="showMoreResults" style="text-align: center">
+	        <span class="loading">Laddar fler inlägg...</span>
+	    </div>
+	{{/if}}
+	
+</template>
+
+<template name="post">
+	<div class="post">
+		<h2><a href="/post/{{id}}">{{title}}</a></h2>
+		<p>{{prettyDate date}}</p>
+
+		<div class="images {{columns}}">
+			{{#each images}}
+			<a href="/image/{{../id}}/1200/{{.}}" class="fresco" data-fresco-group="{{../gallery}}">
+				<div style="background-image: url(/image/{{../id}}/{{../image_size}}/{{.}})" class="image"></div>
+			</a>
+			{{/each}}
+		</div>
+		<div class="text">
+			{{#markdown}}{{text}}{{/markdown}}
+		</div>
+	</div>
+	
+</template>

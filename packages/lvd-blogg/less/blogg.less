@@ -1,4 +1,3 @@
-/* CSS declarations go here */
 @font-face {
     font-family: 'futuramedium';
     src: url('/fonts/futura-medium-webfont.eot');
@@ -7,8 +6,8 @@
          url('/fonts/futura-medium-webfont.woff') format('woff'),
          url('/fonts/futura-medium-webfont.ttf') format('truetype'),
          url('/fonts/futura-medium-webfont.svg#futuramedium') format('svg');
-    font-weight: normal;
-    font-style: normal;
+    font-weight: medium;
+    font-style: medium;
 
 }
 
@@ -63,7 +62,7 @@ body {
 	font-family: 'futuramedium', 'Montserrat', sans-serif;
 	-webkit-font-smoothing: antialiased;
 	color: #333;
-	margin: 0 20px;
+	margin: 0;
 	text-align: center;
 }
 
@@ -75,7 +74,11 @@ a {
 a:hover {
 	color: #b3b3b3;
 }
+h1, h2, h3, h4, h5, h6 { /*reset for mobile browsers */
 
+font-weight: normal;
+
+}
 header {
 	text-align: center;
 	margin-bottom: 120px;
@@ -83,9 +86,10 @@ header {
 		text-transform: uppercase;
 		font-size: 70px;
 		letter-spacing: 20px;
-		margin: 90px auto 10px auto;
-		width: 75%;
-		text-shadow: 2px 3px 5px #aeaeae;
+		margin-right: -20px;
+		background-color: transparent;
+		text-shadow: rgba(0, 0, 0, 0.4) 2px 3px 5px;
+		text-align: center;
 	}
 	p {
 		font-family: "futura_ltlight","Helvetica Neue",Helvetica,Arial,sans-serif;
@@ -182,53 +186,96 @@ button {
 	}
 
 	.images {
+		display: -webkit-box;
+		    display: -moz-box;
+		    display: -ms-flexbox;
+		    display: -webkit-flex;
+		    display: flex;
+		    -webkit-box-direction: normal;
+		    -moz-box-direction: normal;
+		    -webkit-box-orient: horizontal;
+		    -moz-box-orient: horizontal;
+		    -webkit-flex-direction: row;
+		    -ms-flex-direction: row;
+		    flex-direction: row;
+		    -webkit-flex-wrap: wrap;
+		    -ms-flex-wrap: wrap;
+		    flex-wrap: wrap;
+		    -webkit-box-pack: center;
+		    -moz-box-pack: center;
+		    -webkit-justify-content: center;
+		    -ms-flex-pack: center;
+		    justify-content: center;
+		    -webkit-align-content: flex-start;
+		    -ms-flex-line-pack: start;
+		    align-content: flex-start;
+		    -webkit-box-align: center;
+		    -moz-box-align: center;
+		    -webkit-align-items: center;
+		    -ms-flex-align: center;
+		    align-items: center;
 		margin: 0 auto;
 		font-size: 0;
 		font-family: monospace;
 		text-align: left;
 
 		.image {
+			-webkit-box-ordinal-group: 1;
+				-moz-box-ordinal-group: 1;
+				-webkit-order: 0;
+				-ms-flex-order: 0;
+				order: 0;
+				-webkit-box-flex: 0;
+				-moz-box-flex: 0;
+				-webkit-flex: 0 1 auto;
+				-ms-flex: 0 1 auto;
+				flex: 0 1 auto;
+				-webkit-align-self: auto;
+				-ms-flex-item-align: auto;
+			align-self: auto;
 			display: inline-block;
-			margin-right: 2%;
-			margin-bottom: 20px;
+			margin-left: 1vw;
+			margin-bottom: 1vw;
 			background-size: cover;
 			background-position: center center;
-			
+			max-height: 400px;
+			max-width: 400px;			
+			min-height: 300px;
+			min-width: 300px;
+			width: 25vw;
+			height: 25vw;
+
+			@media screen {
+			  @media (min-width: 768px) {
+			    color: red;
+			  }
+			}
 			&:hover{
 				outline: 2px #acacac solid;
 			}
+			&.filler{
+				height: 0;
+				min-height: 0;
+				margin: 0;
+			}
+			
 		}
-
 		&.one {
 			.image {
-				width: 100%;
-				padding-bottom: 100%;
+				margin: 0 1vw 1vw 1vw;
+				width:98vw;
+				height:98vw;
+				max-width: 98vw;
+				min-width: 98vw;			
+				max-height: 98vw;
+				min-height: 98vw;
+
+				&.filler{
+					height: 0;
+					min-height: 0;
+					margin: 0;
+				}
 			}
 		} 
-		&.two {
-			.image {
-				width: 48%;
-				padding-bottom: 48%;
-
-			}
-		}		
-		&.three {
-			.image {
-				width: 31.3333333%;
-				padding-bottom: 31.3333333%;
-			}
-		}
-		&.four {
-			.image {
-				width: 23%;
-				padding-bottom: 23%;
-			}
-		}		
-		&.five {
-			.image {
-				width: 18%;
-				padding-bottom: 18%;
-			}
-		}
 	}
 }

@@ -13,11 +13,11 @@ Template.registerHelper('settings', function() {
 });
 
 
-// Template.body.onRendered(function(){
-// 	$('header h1').fitText();
-// })
-
 Template.body.onRendered(function(){
+	$('header h1').fitText(1, {maxFontSize: '100px'});
+})
+
+Template.image.onRendered(function(){
 	$('a[data-rel^=lightcase]').lightcase({
 		shrinkFactor:1
 

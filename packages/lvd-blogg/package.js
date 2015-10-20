@@ -15,7 +15,7 @@ Package.onUse(function(api) {
 
 	api.imply(['lvd-blogg-posts', 'lvd-blogg-images', 'lvd-blogg-storage-s3', 'lvd-lightbox']);
 	api.use(['iron:router@1.0.7', 'accounts-base', 'accounts-password'], ['client', 'server']);
-	api.use(['templating', 'less', 'mrt:fittext'], 'client');
+	api.use(['templating', 'less', 'frabrunelle:fittext@1.2.0_2'], 'client');
 
 	api.addFiles(['html/blogg.html'], 'client');
 	api.addFiles(['js/test.js'], 'client');
